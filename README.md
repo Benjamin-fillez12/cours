@@ -4,3 +4,6 @@ Modules fait par moi pour m'améliorer et mieux comprendre la gestion de mémoir
 
 # Fichier PyStringProject: 
 sont des fonctions en Python refaite en C, je ne l'ai pas encore terminé car j'apprend toujours le C et des choses me semble encore flou.
+
+# Fichier Revision:
+contient des modules fait par moi pour mémoriser l'allocation de mémoire ainsi que la copie etc

@@ -1,0 +1,8 @@
+install:
+cjson/cJSON.h  
+
+compile:
+gcc main.c -o json_parser -lcjson ./json_parser
+
+exe:
+./json_parser

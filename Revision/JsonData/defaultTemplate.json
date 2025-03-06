@@ -1,0 +1,9 @@
+{
+    "data":	{
+		"maxGraphics":	10,
+		"renderDistance":	150,
+		"Shadows":	true,
+        "Volume": 1,
+        "DisplaySize": 125
+	}
+}

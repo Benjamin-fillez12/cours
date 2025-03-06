@@ -19,7 +19,7 @@ typedef struct BuildClassicSetting {
 typedef struct calcCombination {
     int x;
     int y;
-    short o;
+    char o;
 } calcCombination, *__CCombination;
 
 static void bindDefaultSettings(defaultSettingValue settings){
@@ -33,14 +33,27 @@ char *processCalcOperation(__CCombination calcResult){
     double stockResult;
     char getOperationSymbol = __OPERATION_ARRAY[(rand() % (sizeof(__OPERATION_ARRAY)/sizeof(__OPERATION_ARRAY[0]))) + 1];
     calcResult->o = getOperationSymbol;
-    if(calcResult->o == '+') { stockResult = calcResult->x + calcResult->y;}
-    else if(calcResult->o == '-') { stockResult = calcResult->x - calcResult->y;}
-    else if(calcResult->o == '/') { stockResult = calcResult->x / calcResult->y;}
-    else if(calcResult->o == '*') { stockResult = calcResult->x * calcResult->y;};
+    switch(getOperationSymbol){
+        case '+':
+            stockResult = calcResult->x + calcResult->y;
+            break;
+        case '/':
+            stockResult = calcResult->x / calcResult->y;
+            break;
+        case '-':
+            stockResult = calcResult->x - calcResult->y;
+            break;
+        case '*':
+            stockResult = calcResult->x * calcResult->y;
+            break;
+        default:
+            stockResult = calcResult->x % calcResult->y;
+            break;
+    }
     snprintf(formatStrCalc
         ,1024,
-        "%ld %c %ld = %ld",
-        calcResult->x,calcResult->o,calcResult->y,stockResult
+        "%ld %c %ld = %lf",
+        calcResult->x,getOperationSymbol,calcResult->y,stockResult
     );
     return formatStrCalc;
 }
@@ -161,7 +174,7 @@ int main() {
         free(convert_json_data);
         free(getDefaultTemplateAsync);
         free(getJsonData);
-        printf("Reconcile event ended: [[Result]: %s\n]",RData);
+        printf("Reconcile event ended: [[Result]: %s]\nAny new modification will be saved.\n",RData);
         cJSON *updateReconciledData = cJSON_Parse((char*)__ReadJSONFIle("./Software/test.json"));
         modifyCalc(updateReconciledData);
         free(RData);
@@ -192,7 +205,7 @@ int main() {
         fflush(jsonFile);
         fclose(jsonFile);
         cJSON *updateDefaultData = cJSON_Parse((char*)__ReadJSONFIle("./Software/test.json"));
-        printf("Analysing current file before reconcil event: %s\n",cJSON_Print(updateDefaultData));
+        printf("Analysing current file before reconcile event: %s\n",cJSON_Print(updateDefaultData));
         jsonFile = fopen("./Software/test.json","w");
         char *RData = Reconcile(compactDefaultJsonTemplateAsync,updateDefaultData);
         fputs(RData,jsonFile);

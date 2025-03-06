@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "cjson/cJSON.h"
+#include <cJSON.h>
 
 /*
     Reading json data:
@@ -72,6 +72,7 @@ int __WriteJSONData(const char *filename,const char *data){
         return 0;
     }
     fputs(data,file);
+    fflush(file);
     fclose(file);
     return 1;
 }

@@ -1,8 +1,15 @@
-install:
-cjson/cJSON.h  
-
-compile:
-gcc main.c -o json_parser -lcjson ./json_parser
-
-exe:
-./json_parser
+windows:
+    git_clone_cmd: "git clone https://github.com/DaveGamble/cJSON.git
+    cd cJSON"
+    gcc_compile: gcc -c cJSON.c -o cJSON.o 
+    ar rcs libcjson.a cJSON.o
+    gcc_program_compile: gcc main.c -o runDataProgram -I. -L. -lcjson
+    execute: runDataProgram.exe
+-----------------
+linux:
+  install:
+  cjson/cJSON.h  
+  compile:
+  gcc main.c -o json_parser -lcjson ./json_parser
+  exe:
+  ./json_parser

@@ -5,8 +5,14 @@
 #include <string.h>
 #include <time.h>
 
+#include <gtk/gtk.h>
 #include <cJSON.h>
-#include "../cJSON/JsonUtils.h"
+
+#include "application.h"
+#include "JsonUtils.h"
+
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
 
 const char __OPERATION_ARRAY[] = {'+','/','*','-'};
 
@@ -141,8 +147,7 @@ static void modifyCalc(cJSON *root){
    __WriteJSONData("./Software/test.json",updateData);
 }
 
-int main() {
-    srand(time(NULL));
+static void launchDataPackages(){
     FILE *jsonFile;
     char *getDefaultTemplateAsync = __ReadJSONFIle("./Software/defaultTest.json");
     char *getJsonData = __ReadJSONFIle("./Software/test.json");
@@ -150,7 +155,6 @@ int main() {
         closesFiles(1,jsonFile);
         free(getJsonData);
         free(getDefaultTemplateAsync);
-        return 1; 
     };
     cJSON *compactJsonData = cJSON_Parse(getJsonData);
     cJSON *compactDefaultJsonTemplateAsync = cJSON_Parse(getDefaultTemplateAsync);
@@ -186,7 +190,6 @@ int main() {
         defaultSettingValue settings = malloc(sizeof(BuildClassicSetting));
         if(!settings){
             perror("Memory allocation failed");
-            return 1;
         }
         bindDefaultSettings(settings);
         cJSON *root = cJSON_CreateObject();
@@ -220,5 +223,11 @@ int main() {
         printf("Data is now builded !\n");
         free(RData);
     }
-    return 0;
+}
+
+int main(int argc, char **argv) {
+    srand(time(NULL));
+    launchDataPackages();
+    int application_status = constructApplication(argc,argv);
+    return application_status;
 }

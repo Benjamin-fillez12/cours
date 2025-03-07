@@ -1,15 +1,23 @@
 windows:
-    git_clone_cmd: "git clone https://github.com/DaveGamble/cJSON.git
-    cd cJSON"
-    gcc_compile: gcc -c cJSON.c -o cJSON.o 
-    ar rcs libcjson.a cJSON.o
-    gcc_program_compile: gcc main.c -o runDataProgram -I. -L. -lcjson
-    execute: runDataProgram.exe
------------------
-linux:
-  install:
-  cjson/cJSON.h  
-  compile:
-  gcc main.c -o json_parser -lcjson ./json_parser
-  exe:
-  ./json_parser
+    --Getting Started 
+    install MSYS2
+    open MSYS2 UCRT64
+    install [gtk4,gcc,cJSON]
+    install gtk4 command: pacman -S mingw-w64-ucrt-x86_64-gtk4
+    set pkg-config path command: echo 'export PKG_CONFIG_PATH=/ucrt64/lib/pkgconfig:$PKG_CONFIG_PATH' >> ~/.bashrc
+    close MSYS2 UCRT64 and open it again
+    check if pkg-config is found: pkg-config --modversion gtk4
+    
+    if the command fail try to run the command under
+        ls /ucrt64/lib/pkgconfig/gtk4.pc
+    and if the file doesnt exist then re install gtk 4
+
+    pacman -S mingw-w64-ucrt-x86_64-gtk4
+    and check again
+
+    -- making projetc with cJSON and GTK4
+    cd "PATH"
+    make .vscode file
+    copy all json file and past it in
+    compile command:  gcc main.c -o gtk_app `pkg-config --cflags --libs gtk4` -I. -L. -lcjson
+    exe: ./gtk_app
